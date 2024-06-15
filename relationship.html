@@ -73,15 +73,17 @@
                     <div class="col-lg-8">
                         <div id="imaginary_container"> 
                             <div class="input-group stylish-input-group">
-                                <input type="text" class="form-control"  placeholder="search 'Relationship'" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Addictionwhen gambling '" required="">
-                                <span class="input-group-addon">
+                               
+                                <input type="text" class="form-control" id="search" placeholder="search 'Relationship'" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Addictionwhen gambling '" required="">
+                                 <span class="input-group-addon">
                                     <button type="submit">
                                         <span class="lnr lnr-magnifier"></span>
                                     </button>  
+                            
                                 </span>
                             </div>
                         </div> 
-                        <p class="mt-20 text-center text-white">169 results found for “Relationship”</p>
+                        <p class="mt-20 text-center text-white" id="search-result-count"> results found for “Relationship”</p>
                         <!--archive section-->
                        <div  class="single-element-widget mt-20">
                            <div class="default-select" id="default-select">
@@ -111,7 +113,8 @@
         <div class="container">
             <div class="row justify-content-center d-flex">
                 <div class="col-lg-8">
-                    <div class="post-lists search-list">
+                    <div class="post-lists search-list" id="filtered-posts">
+
                         <div class="single-list flex-row d-flex">
                             <div class="thumb">
                                 <div class="date">
@@ -119,7 +122,7 @@
                                 </div>
                                 <img src="img/asset/lastingmemory1.jpg" alt="">
                             </div>
-                            <div class="detail">
+                            <div class="detail" id="detail">
                                 <a href="R-lastingmemory.html"><h4 class="pb-20">The Lasting Memory</h4></a>
                                 <p>
                                     As I turned a corner, I spotted an elderly man sitting alone on a bench, feeding pigeons. There was something serene about him, a quiet dignity that drew me closer. 
@@ -136,7 +139,7 @@
                         </div>
 
 
-                        <div class="single-list flex-row d-flex">
+                        <div class="single-list flex-row d-flex" data-category="relationship">
                             <div class="thumb">
                                 <div class="date">
                                     <span>20</span><br>Dec
@@ -281,7 +284,7 @@
                             </div>
                         </div>
 
-
+                     
                         <div class="single-list flex-row d-flex">
                             <div class="thumb">
                                 <div class="date">
@@ -305,15 +308,20 @@
                                 </p>
                             </div>
                         </div>  
-                        
-                        
-                        <div class="justify-content-center d-flex">
-                            <a class="text-uppercase primary-btn loadmore-btn mt-40 mb-60" href="#"> Load More Post</a>
-                        </div> 
+
+                  
+                        <div class="single-list flex-row d-flex">
+                            <div class="pagination">
+                                <a href="#" class="prev">&laquo; Previous</a>
+                                <a href="#" class="page active">1</a>
+                                <a href="#" class="page">2</a>
+                                <a href="#" class="page">3</a>
+                                <a href="#" class="next">Next &raquo;</a>
+                            </div>
+                         </div>
                     </div>                          
                 </div>
-
-
+                
             </div>
         </div>    
     </section>
@@ -407,5 +415,48 @@
         <script src="js/jquery.magnific-popup.min.js"></script>             
         <script src="js/jquery.sticky.js"></script>
         <script src="js/main.js"></script>  
+
+
+        <script>
+            // JavaScript to handle the filter functionality
+            document.addEventListener("DOMContentLoaded", function() {
+                const searchInput = document.getElementById('search');
+                const postList = document.querySelectorAll('.single-list');
+                const resultCount = document.getElementById('search-result-count');
+                const filteredPostsContainer = document.getElementById('filtered-posts');
+    
+                // Save all posts HTML
+                const allPosts = Array.from(postList).map(post => post.outerHTML);
+    
+                // Function to filter posts
+                function filterPosts() {
+                    let filter = searchInput.value.toLowerCase();
+                    let count = 0;
+                    filteredPostsContainer.innerHTML = ''; // Clear the container
+    
+                    postList.forEach(post => {
+                        let postText = post.innerText.toLowerCase();
+                        if (postText.includes(filter)) {
+                            filteredPostsContainer.innerHTML += post.outerHTML;  // Add matching post
+                            count++;
+                        }
+                    });
+    
+                    resultCount.innerText = `${count} results found for “${filter}”`;
+    
+                    // If no input, show all posts
+                    if (filter === '') {
+                        filteredPostsContainer.innerHTML = allPosts.join('');
+                        resultCount.innerText = `results found for “Relationship”`;
+                    }
+                }
+    
+                // Event listener for input event
+                searchInput.addEventListener('input', filterPosts);
+    
+                // Initial load
+                filterPosts();
+            });
+        </script>
     </body>
 </html>
