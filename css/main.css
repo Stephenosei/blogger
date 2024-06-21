@@ -29,3 +29,85 @@
 .pagination .prev, .pagination .next {
     font-weight: bold;
 }
+
+.commentform-area {
+    text-align: center;
+    font-size: 5vw; /* Makes font-size responsive */
+}
+
+.footer a {
+    display: inline-block;
+    margin: 10px;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+
+.lively {
+    display: inline-block;
+    transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.lively:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+.fa-facebook {
+    color: #3b5998; /* Facebook blue */
+}
+
+.fa-facebook:hover {
+    color: #2d4373;
+    animation: bob 0.5s infinite alternate;
+}
+
+.fa-twitter {
+    color: #1DA1F2; /* Twitter blue */
+}
+
+.fa-twitter:hover {
+    color: #0c85d0;
+    animation: bob 0.5s infinite alternate;
+}
+
+.fa-instagram {
+    color: #E4405F; /* Instagram gradient color */
+}
+
+.fa-instagram:hover {
+    color: #bc2a8d;
+    animation: bob 0.5s infinite alternate;
+}
+
+.fa-whatsapp {
+    color: #25D366; /* WhatsApp green */
+}
+
+.fa-whatsapp:hover {
+    color: #1ebe4b;
+    animation: bob 0.5s infinite alternate;
+}
+
+.fa-youtube {
+    color: #FF0000; /* YouTube red */
+}
+
+.fa-youtube:hover {
+    color: #cc0000;
+    animation: bob 0.5s infinite alternate;
+}
+
+@keyframes bob {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-5px);
+    }
+}
+
+@media (max-width: 768px) {
+    .commentform-area {
+        font-size: 10vw; /* Adjust font-size for smaller screens */
+    }
+}
