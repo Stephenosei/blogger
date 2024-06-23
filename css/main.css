@@ -41,7 +41,7 @@
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-
+/*bounce*/
 .lively {
     display: inline-block;
     transition: transform 0.3s ease-in-out, color 0.3s ease-in-out;
