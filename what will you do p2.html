@@ -424,47 +424,5 @@
         <script src="js/jquery.sticky.js"></script>
         <script src="js/main.js"></script>  
 
-
-        <script>
-            // JavaScript to handle the filter functionality
-            document.addEventListener("DOMContentLoaded", function() {
-                const searchInput = document.getElementById('search');
-                const postList = document.querySelectorAll('.single-list');
-                const resultCount = document.getElementById('search-result-count');
-                const filteredPostsContainer = document.getElementById('filtered-posts');
-    
-                // Save all posts HTML
-                const allPosts = Array.from(postList).map(post => post.outerHTML);
-    
-                // Function to filter posts
-                function filterPosts() {
-                    let filter = searchInput.value.toLowerCase();
-                    let count = 0;
-                    filteredPostsContainer.innerHTML = ''; // Clear the container
-    
-                    postList.forEach(post => {
-                        let postText = post.innerText.toLowerCase();
-                        if (postText.includes(filter)) {
-                            filteredPostsContainer.innerHTML += post.outerHTML;  // Add matching post
-                            count++;
-                        }
-                    });
-    
-                    resultCount.innerText = `${count} results found for “${filter}”`;
-    
-                    // If no input, show all posts
-                    if (filter === '') {
-                        filteredPostsContainer.innerHTML = allPosts.join('');
-                        resultCount.innerText = `results found for “What will you do?(WWYD)”`;
-                    }
-                }
-    
-                // Event listener for input event
-                searchInput.addEventListener('input', filterPosts);
-    
-                // Initial load
-                filterPosts();
-            });
-        </script>
     </body>
 </html>
