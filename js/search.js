@@ -4,8 +4,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const resultCount = document.getElementById('search-result-count');
     const filteredPostsContainer = document.getElementById('filtered-posts');
 
-    // Save all posts HTML
+    // Save all posts HTML from the first page
     const allPosts = Array.from(postList).map(post => post.outerHTML);
+    let additionalPostsLoaded = false; // Flag to track if additional posts have been loaded
 
     // Function to load content from another page
     async function loadContent(url) {
@@ -35,6 +36,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 allPosts.push(post.outerHTML);
             });
         }
+
+        additionalPostsLoaded = true;
+        filterPosts(); // Reapply filter with additional posts
     }
 
     // Function to filter posts
@@ -55,10 +59,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
         resultCount.innerText = `${count} results found for “${filter}”`;
 
-        // If no input, show all posts
+        // If no input, show posts from the first page only
         if (filter === '') {
-            filteredPostsContainer.innerHTML = allPosts.join('');
+            filteredPostsContainer.innerHTML = Array.from(postList).map(post => post.outerHTML).join('');
             resultCount.innerText = `results found for “What will you do?(WWYD)”`;
+        } else if (!additionalPostsLoaded) {
+            // Load additional posts if not already loaded
+            loadAdditionalPosts();
         }
     }
 
@@ -67,5 +74,4 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Initial load
     filterPosts();
-    loadAdditionalPosts(); // Load content from other pages
 });
