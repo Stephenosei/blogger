@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="/img/trylogo2.png">
+  <title>Story — Bɔ-Me-Nkɔmmɔ</title>
+  <meta name="description" content="Read real-life relationship stories and share advice on Bɔ-Me-Nkɔmmɔ.">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/editorial.css">
+</head>
+<body class="bmn-body">
+  <div class="bmn-progress-track" aria-hidden="true"><div class="bmn-progress-fill" id="read-progress"></div></div>
+  <div id="bmn-announcement-host"></div>
+  <div id="bmn-header-host"></div>
+
+  <main id="story-main">
+    <section class="bmn-article-header">
+      <div class="bmn-article-header-inner">
+        <div class="bmn-meta-line" id="story-meta">Loading story...</div>
+        <h1 class="bmn-article-title" id="story-title">Loading...</h1>
+        <p style="margin:0;color:var(--bmn-ink-muted);font-size:15px;" id="story-author"></p>
+      </div>
+    </section>
+
+    <div class="bmn-article-cover" id="story-cover-wrap" style="display:none;">
+      <img id="story-cover" src="" alt="" referrerpolicy="no-referrer">
+    </div>
+
+    <article class="bmn-prose" id="story-body"></article>
+
+    <div class="bmn-engagement-bar">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <button type="button" class="bmn-btn bmn-btn-secondary" id="like-btn">
+          <i class="fa fa-heart-o" aria-hidden="true"></i>
+          <span>Appreciate Story</span>
+          <strong id="like-count" style="font-variant-numeric:tabular-nums;">0</strong>
+        </button>
+        <span style="font-size:13px;color:var(--bmn-ink-subtle);font-variant-numeric:tabular-nums;" id="view-count"></span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <button type="button" class="bmn-btn bmn-btn-ghost" id="copy-link-btn">Copy Link</button>
+        <a id="share-fb" target="_blank" rel="noopener noreferrer" class="bmn-btn bmn-btn-ghost" aria-label="Share on Facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+        <a id="share-wa" target="_blank" rel="noopener noreferrer" class="bmn-btn bmn-btn-ghost" aria-label="Share on WhatsApp"><i class="fa fa-whatsapp" aria-hidden="true"></i></a>
+      </div>
+    </div>
+
+    <section class="bmn-comments-wrap" id="comments-section">
+      <h2 class="bmn-section-title" style="font-size:24px;margin-bottom:8px;">Reader Advice &amp; Comments</h2>
+      <p style="font-size:14px;color:var(--bmn-ink-muted);margin:0 0 24px;">Share your perspective kindly. Comments appear after editorial review.</p>
+
+      <div id="comments-list" style="margin-bottom:32px;"></div>
+
+      <form id="comment-form" style="background:var(--bmn-paper);border:1px solid var(--bmn-border);border-radius:10px;padding:24px;">
+        <h3 style="font-size:17px;margin:0 0 16px;">Leave Your Advice or Comment</h3>
+        <div id="comment-feedback"></div>
+        <div class="bmn-grid-2" style="gap:16px;">
+          <div class="bmn-field">
+            <label for="comment-name">Your Name</label>
+            <input type="text" id="comment-name" class="bmn-input" required minlength="2" maxlength="100" placeholder="e.g. Ama K.">
+          </div>
+          <div class="bmn-field">
+            <label for="comment-email">Email (optional, kept private)</label>
+            <input type="email" id="comment-email" class="bmn-input" maxlength="180" placeholder="you@example.com">
+          </div>
+        </div>
+        <div class="bmn-field">
+          <label for="comment-body">Your Thoughts</label>
+          <textarea id="comment-body" class="bmn-textarea" required minlength="3" maxlength="3000" placeholder="What advice would you offer?"></textarea>
+        </div>
+        <button type="submit" class="bmn-btn bmn-btn-primary" id="comment-submit-btn">Post Comment</button>
+      </form>
+    </section>
+
+    <section class="bmn-section bmn-section-alt">
+      <div class="bmn-container">
+        <div class="bmn-section-head">
+          <h2 class="bmn-section-title">More Stories to Read</h2>
+          <a href="/stories.html" class="bmn-read-link">Browse all &rarr;</a>
+        </div>
+        <div class="bmn-grid-3" id="related-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="bmn-footer-host"></div>
+
+  <script src="/js/vendor/supabase.js"></script>
+  <script src="/js/supabase-client.js"></script>
+  <script src="/js/legacy-catalog.js"></script>
+  <script src="/js/content-service.js"></script>
+  <script src="/js/layout.js"></script>
+  <script>
+    (async function () {
+      const { escapeHtml, mediaUrl, storyHref, estimateReadTime } = window.BMNSupabase;
+      await window.BMNLayout.mountPublicLayout({ active: 'stories' });
+
+      const params = new URLSearchParams(window.location.search);
+      const pathSlug = window.location.pathname.startsWith('/story/')
+        ? decodeURIComponent(window.location.pathname.replace(/^\/story\//, '').replace(/\/$/, ''))
+        : '';
+      const slug = params.get('slug') || pathSlug;
+
+      const { article } = await window.BMNContent.fetchArticleBySlugOrPath(slug);
+      if (!article) {
+        document.getElementById('story-title').textContent = 'Story Not Found';
+        document.getElementById('story-meta').textContent = 'Archive';
+        document.getElementById('story-body').innerHTML = '<p>This story could not be found or has not been published yet. <a href="/stories.html" style="color:var(--bmn-accent);text-decoration:underline;">Return to all stories</a>.</p>';
+        document.getElementById('comments-section').style.display = 'none';
+        return;
+      }
+
+      document.title = `${article.title} — Bɔ-Me-Nkɔmmɔ`;
+      document.getElementById('story-meta').innerHTML = `
+        <a href="/stories.html?category=${encodeURIComponent(article.category_slug)}" class="bmn-meta-cat">${escapeHtml(article.category_name)}</a>
+        <span aria-hidden="true">&middot;</span>
+        <span>${escapeHtml(article.display_date_label)}</span>
+        <span aria-hidden="true">&middot;</span>
+        <span>${escapeHtml(estimateReadTime(article.paragraphs))}</span>
+      `;
+      document.getElementById('story-title').textContent = article.title;
+      document.getElementById('story-author').textContent = `By ${article.author_pen_name}`;
+
+      if (article.cover_image_url) {
+        const coverWrap = document.getElementById('story-cover-wrap');
+        const coverImg = document.getElementById('story-cover');
+        coverImg.src = mediaUrl(article.cover_image_url, '/img/frontpik2.jpg');
+        coverImg.alt = article.title;
+        coverWrap.style.display = 'block';
+      }
+
+      const bodyEl = document.getElementById('story-body');
+      const parasHtml = (article.paragraphs || []).map((p) => `<p>${escapeHtml(p)}</p>`).join('');
+      const tagsHtml = article.tags && article.tags.length
+        ? `<div style="margin-top:24px;font-family:var(--bmn-font-sans);font-size:13px;color:var(--bmn-ink-subtle);">Topics: ${article.tags.map((t) => escapeHtml(t.name)).join(' · ')}</div>`
+        : '';
+      bodyEl.innerHTML = parasHtml + `<p class="bmn-article-signoff">— ${escapeHtml(article.author_pen_name)}</p>` + tagsHtml;
+
+      // View & Like counts
+      const likeCountEl = document.getElementById('like-count');
+      const viewCountEl = document.getElementById('view-count');
+      likeCountEl.textContent = String(article.likes_count || 0);
+      if (article.views_count > 0) viewCountEl.textContent = `${article.views_count} reads`;
+
+      const updatedViews = await window.BMNContent.incrementView(article.slug);
+      if (typeof updatedViews === 'number' && updatedViews > 0) {
+        viewCountEl.textContent = `${updatedViews} reads`;
+      }
+
+      const likeKey = `bmn_liked_${article.slug}`;
+      const likeBtn = document.getElementById('like-btn');
+      if (sessionStorage.getItem(likeKey)) {
+        likeBtn.classList.add('is-liked');
+        likeBtn.querySelector('i').className = 'fa fa-heart';
+      }
+      likeBtn.addEventListener('click', async () => {
+        if (sessionStorage.getItem(likeKey)) return;
+        sessionStorage.setItem(likeKey, '1');
+        likeBtn.querySelector('i').className = 'fa fa-heart';
+        const nextLikes = await window.BMNContent.incrementLike(article.slug);
+        if (typeof nextLikes === 'number' && nextLikes > 0) {
+          likeCountEl.textContent = String(nextLikes);
+        } else {
+          likeCountEl.textContent = String(Number(likeCountEl.textContent) + 1);
+        }
+      });
+
+      // Share buttons
+      const shareUrl = encodeURIComponent(window.location.href);
+      const shareTitle = encodeURIComponent(article.title);
+      document.getElementById('share-fb').href = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
+      document.getElementById('share-wa').href = `https://wa.me/?text=${shareTitle}%20${shareUrl}`;
+      document.getElementById('copy-link-btn').addEventListener('click', async (e) => {
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          e.target.textContent = 'Copied!';
+          setTimeout(() => (e.target.textContent = 'Copy Link'), 1800);
+        } catch {}
+      });
+
+      // Reading progress bar
+      window.addEventListener('scroll', () => {
+        const doc = document.documentElement;
+        const pct = Math.min(100, Math.max(0, (doc.scrollTop / (doc.scrollHeight - doc.clientHeight || 1)) * 100));
+        document.getElementById('read-progress').style.width = `${pct}%`;
+      }, { passive: true });
+
+      // Comments
+      async function loadComments() {
+        const comments = await window.BMNContent.fetchApprovedComments(article.id);
+        const listEl = document.getElementById('comments-list');
+        if (!comments.length) {
+          listEl.innerHTML = '<p style="font-size:14px;color:var(--bmn-ink-subtle);">No comments published yet. Be the first to share thoughtful advice.</p>';
+          return;
+        }
+        listEl.innerHTML = comments
+          .map((c) => `
+            <div class="bmn-comment-card">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <strong style="font-size:14px;">${escapeHtml(c.author_name)}</strong>
+                <span style="font-size:12px;color:var(--bmn-ink-subtle);">${escapeHtml(window.BMNSupabase.formatDate(c.created_at))}</span>
+              </div>
+              <p style="margin:0;font-size:14px;color:var(--bmn-ink-muted);white-space:pre-line;">${escapeHtml(c.body)}</p>
+            </div>
+          `)
+          .join('');
+      }
+      await loadComments();
+
+      document.getElementById('comment-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const feedback = document.getElementById('comment-feedback');
+        const btn = document.getElementById('comment-submit-btn');
+        btn.disabled = true;
+        btn.textContent = 'Submitting...';
+        feedback.innerHTML = '';
+
+        try {
+          await window.BMNContent.submitComment({
+            articleId: article.id,
+            authorName: document.getElementById('comment-name').value,
+            authorEmail: document.getElementById('comment-email').value,
+            body: document.getElementById('comment-body').value,
+          });
+          feedback.innerHTML = '<div class="bmn-alert bmn-alert-success">Thank you! Your comment has been received and will appear once reviewed by an editor.</div>';
+          e.target.reset();
+        } catch (err) {
+          feedback.innerHTML = `<div class="bmn-alert bmn-alert-error">${escapeHtml(err.message)}</div>`;
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Post Comment';
+        }
+      });
+
+      // Related stories
+      const { items: allArticles } = await window.BMNContent.fetchPublishedArticles();
+      const related = allArticles
+        .filter((a) => a.slug !== article.slug && a.category_slug === article.category_slug)
+        .slice(0, 3);
+      document.getElementById('related-grid').innerHTML = related
+        .map((a) => `
+          <article class="bmn-card">
+            <div class="bmn-card-media">
+              <a href="${escapeHtml(storyHref(a))}">
+                <img src="${escapeHtml(mediaUrl(a.thumbnail_url || a.cover_image_url, '/img/frontpik2.jpg'))}" alt="${escapeHtml(a.title)}" referrerpolicy="no-referrer" onerror="this.style.display='none'">
+              </a>
+            </div>
+            <div class="bmn-card-body">
+              <div class="bmn-meta-line"><span class="bmn-meta-cat">${escapeHtml(a.category_name)}</span> &middot; <span>${escapeHtml(a.display_date_label)}</span></div>
+              <h3 class="bmn-card-title"><a href="${escapeHtml(storyHref(a))}">${escapeHtml(a.title)}</a></h3>
+              <p class="bmn-card-excerpt">${escapeHtml(a.excerpt)}</p>
+            </div>
+          </article>
+        `)
+        .join('');
+    })();
+  </script>
+</body>
+</html>

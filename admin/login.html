@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="/img/trylogo2.png">
+  <title>Admin Sign In — Bɔ-Me-Nkɔmmɔ</title>
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/admin/admin.css">
+</head>
+<body>
+  <div class="adm-auth-wrap">
+    <div class="adm-auth-card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <img src="/img/trylogo2.png" alt="Bɔ-Me-Nkɔmmɔ" style="height:30px;">
+        <strong style="font-size:18px;">Bɔ-Me-Nkɔmmɔ Admin</strong>
+      </div>
+      <p style="margin:0 0 20px;color:#475569;font-size:13.5px;">Editorial CMS, Submissions Review &amp; Role-Based Administration</p>
+
+      <div id="auth-config-warning"></div>
+      <div id="auth-feedback"></div>
+
+      <div class="adm-tabs" id="auth-tabs">
+        <button type="button" data-mode="signin" class="is-active">Sign In</button>
+        <button type="button" data-mode="signup">Create Account</button>
+        <button type="button" data-mode="reset">Reset Password</button>
+      </div>
+
+      <!-- Sign In Form -->
+      <form id="signin-form">
+        <div class="adm-field">
+          <label for="signin-email">Email Address</label>
+          <input type="email" id="signin-email" class="adm-input" required autocomplete="email" placeholder="admin@example.com">
+        </div>
+        <div class="adm-field">
+          <label for="signin-password">Password</label>
+          <input type="password" id="signin-password" class="adm-input" required autocomplete="current-password" placeholder="Enter your password">
+        </div>
+        <button type="submit" class="adm-btn adm-btn-primary" style="width:100%;" id="signin-btn">Sign In to Admin Portal</button>
+      </form>
+
+      <!-- Sign Up Form -->
+      <form id="signup-form" style="display:none;">
+        <div class="adm-field">
+          <label for="signup-name">Full Name</label>
+          <input type="text" id="signup-name" class="adm-input" required minlength="2" placeholder="Your full name">
+        </div>
+        <div class="adm-field">
+          <label for="signup-email">Email Address</label>
+          <input type="email" id="signup-email" class="adm-input" required autocomplete="email" placeholder="you@example.com">
+        </div>
+        <div class="adm-field">
+          <label for="signup-password">Password (min 8 characters)</label>
+          <input type="password" id="signup-password" class="adm-input" required minlength="8" autocomplete="new-password" placeholder="Create a strong password">
+        </div>
+        <p style="font-size:12px;color:#64748b;margin:0 0 14px;">New staff accounts require activation by a Super Administrator before accessing editorial tools.</p>
+        <button type="submit" class="adm-btn adm-btn-primary" style="width:100%;" id="signup-btn">Register Staff Account</button>
+      </form>
+
+      <!-- Password Reset Request Form -->
+      <form id="reset-form" style="display:none;">
+        <div class="adm-field">
+          <label for="reset-email">Account Email Address</label>
+          <input type="email" id="reset-email" class="adm-input" required autocomplete="email" placeholder="you@example.com">
+        </div>
+        <button type="submit" class="adm-btn adm-btn-primary" style="width:100%;" id="reset-btn">Send Password Recovery Link</button>
+      </form>
+
+      <!-- Password Recovery Update Form (shown when arriving from recovery email link) -->
+      <form id="recovery-update-form" style="display:none;">
+        <div class="adm-field">
+          <label for="new-password">New Password (min 8 characters)</label>
+          <input type="password" id="new-password" class="adm-input" required minlength="8" autocomplete="new-password" placeholder="Enter new password">
+        </div>
+        <button type="submit" class="adm-btn adm-btn-primary" style="width:100%;" id="recovery-save-btn">Update Password</button>
+      </form>
+
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid #e2e8f0;display:flex;justify-content:space-between;font-size:13px;color:#64748b;">
+        <a href="/index.html" style="color:#1936ca;font-weight:600;">&larr; Back to Public Site</a>
+        <span>Secured by Supabase Auth</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/vendor/supabase.js"></script>
+  <script src="/js/supabase-client.js"></script>
+  <script>
+    (async function () {
+      const { escapeHtml } = window.BMNSupabase;
+      const { client, configured } = await window.BMNSupabase.getSupabase();
+
+      const warningEl = document.getElementById('auth-config-warning');
+      const feedbackEl = document.getElementById('auth-feedback');
+      const forms = {
+        signin: document.getElementById('signin-form'),
+        signup: document.getElementById('signup-form'),
+        reset: document.getElementById('reset-form'),
+        recovery: document.getElementById('recovery-update-form'),
+      };
+
+      function showFeedback(type, msg) {
+        feedbackEl.innerHTML = `<div class="adm-alert adm-alert-${type}">${escapeHtml(msg)}</div>`;
+      }
+
+      function setMode(mode) {
+        feedbackEl.innerHTML = '';
+        Object.entries(forms).forEach(([k, el]) => {
+          el.style.display = k === mode ? 'block' : 'none';
+        });
+        document.querySelectorAll('#auth-tabs button').forEach((b) => {
+          b.classList.toggle('is-active', b.dataset.mode === mode);
+        });
+      }
+
+      document.getElementById('auth-tabs').addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-mode]');
+        if (btn) setMode(btn.dataset.mode);
+      });
+
+      if (!configured) {
+        warningEl.innerHTML = `
+          <div class="adm-alert adm-alert-error">
+            <strong>Supabase Not Configured:</strong> Set <code>SUPABASE_URL</code> and <code>SUPABASE_ANON_KEY</code> in your environment secrets and run the SQL migrations in <code>supabase/migrations/</code> to enable live sign-in.
+          </div>
+        `;
+        return;
+      }
+
+      client.auth.onAuthStateChange((event) => {
+        if (event === 'PASSWORD_RECOVERY') {
+          setMode('recovery');
+          showFeedback('info', 'Enter your new password below to complete recovery.');
+        }
+      });
+
+      // Redirect if already signed in (unless in recovery flow)
+      const { data: sessionData } = await client.auth.getSession();
+      if (sessionData?.session && !window.location.hash.includes('type=recovery')) {
+        window.location.replace('/admin/index.html');
+        return;
+      }
+
+      forms.signin.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('signin-btn');
+        btn.disabled = true;
+        btn.textContent = 'Signing in...';
+        try {
+          const { error } = await client.auth.signInWithPassword({
+            email: document.getElementById('signin-email').value.trim(),
+            password: document.getElementById('signin-password').value,
+          });
+          if (error) throw error;
+          window.location.replace('/admin/index.html');
+        } catch (err) {
+          showFeedback('error', err.message || 'Sign-in failed.');
+          btn.disabled = false;
+          btn.textContent = 'Sign In to Admin Portal';
+        }
+      });
+
+      forms.signup.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('signup-btn');
+        btn.disabled = true;
+        btn.textContent = 'Creating account...';
+        try {
+          const { data, error } = await client.auth.signUp({
+            email: document.getElementById('signup-email').value.trim(),
+            password: document.getElementById('signup-password').value,
+            options: {
+              data: { full_name: document.getElementById('signup-name').value.trim() },
+              emailRedirectTo: `${window.location.origin}/admin/index.html`,
+            },
+          });
+          if (error) throw error;
+          if (data.session) {
+            window.location.replace('/admin/index.html');
+          } else {
+            showFeedback('success', 'Account created! Check your email to confirm, then await Super Administrator activation.');
+            e.target.reset();
+          }
+        } catch (err) {
+          showFeedback('error', err.message || 'Could not register account.');
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Register Staff Account';
+        }
+      });
+
+      forms.reset.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('reset-btn');
+        btn.disabled = true;
+        btn.textContent = 'Sending link...';
+        try {
+          const { error } = await client.auth.resetPasswordForEmail(
+            document.getElementById('reset-email').value.trim(),
+            { redirectTo: `${window.location.origin}/admin/login.html` }
+          );
+          if (error) throw error;
+          showFeedback('success', 'Password recovery email sent if that account exists.');
+        } catch (err) {
+          showFeedback('error', err.message || 'Failed to send recovery email.');
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Send Password Recovery Link';
+        }
+      });
+
+      forms.recovery.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('recovery-save-btn');
+        btn.disabled = true;
+        btn.textContent = 'Updating...';
+        try {
+          const { error } = await client.auth.updateUser({
+            password: document.getElementById('new-password').value,
+          });
+          if (error) throw error;
+          showFeedback('success', 'Password updated! Redirecting to Admin Portal...');
+          setTimeout(() => window.location.replace('/admin/index.html'), 1000);
+        } catch (err) {
+          showFeedback('error', err.message || 'Could not update password.');
+          btn.disabled = false;
+          btn.textContent = 'Update Password';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

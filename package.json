@@ -1,0 +1,17 @@
+{
+  "name": "bo-me-nkommo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Bɔ-Me-Nkɔmmɔ real-life relationship stories blog",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "node -e \"console.log('Static site ready')\"",
+    "lint": "node --check server.js && node --check api/public-config.js && node --check js/supabase-client.js && node --check js/content-service.js && node --check js/layout.js && node --check js/legacy-bridge.js && node --check js/legacy-catalog.js && node --check admin/admin.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.119.2",
+    "express": "^4.21.2"
+  }
+}

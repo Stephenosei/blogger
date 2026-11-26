@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="/img/trylogo2.png">
+  <title>Stories Archive — Bɔ-Me-Nkɔmmɔ</title>
+  <meta name="description" content="Explore all Relationship and What Will You Do stories on Bɔ-Me-Nkɔmmɔ.">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/editorial.css">
+</head>
+<body class="bmn-body">
+  <div id="bmn-announcement-host"></div>
+  <div id="bmn-header-host"></div>
+
+  <main>
+    <section class="bmn-article-header">
+      <div class="bmn-container">
+        <p class="bmn-kicker">Editorial Archive</p>
+        <h1 class="bmn-article-title" id="catalog-heading" style="margin-top:6px;">All Stories</h1>
+        <p class="bmn-section-desc" id="catalog-subtitle">Browse published stories, relationship dilemmas, and community discussions.</p>
+      </div>
+    </section>
+
+    <section class="bmn-section">
+      <div class="bmn-container">
+        <div class="bmn-filter-bar">
+          <div class="bmn-segmented" id="category-tabs" role="tablist" aria-label="Story categories">
+            <button type="button" data-cat="all" class="is-active">All Stories</button>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;min-width:260px;flex:1;max-width:460px;">
+            <input type="search" id="search-input" class="bmn-input" placeholder="Search titles, authors, or themes..." aria-label="Search stories">
+            <select id="month-filter" class="bmn-select" style="width:auto;min-width:150px;" aria-label="Filter by month">
+              <option value="all">All Dates</option>
+            </select>
+          </div>
+        </div>
+
+        <p id="results-summary" style="font-size:13px;color:var(--bmn-ink-subtle);margin:0 0 20px;"></p>
+
+        <div class="bmn-grid-3" id="stories-grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="bmn-footer-host"></div>
+
+  <script src="/js/vendor/supabase.js"></script>
+  <script src="/js/supabase-client.js"></script>
+  <script src="/js/legacy-catalog.js"></script>
+  <script src="/js/content-service.js"></script>
+  <script src="/js/layout.js"></script>
+  <script>
+    (async function () {
+      const { escapeHtml, mediaUrl, storyHref, estimateReadTime } = window.BMNSupabase;
+      const params = new URLSearchParams(window.location.search);
+      let activeCat = params.get('category') || 'all';
+      let searchQuery = params.get('q') || '';
+      let activeMonth = 'all';
+
+      const navKey = activeCat === 'relationship' ? 'relationship' : activeCat === 'what-will-you-do' ? 'wwyd' : 'stories';
+      await window.BMNLayout.mountPublicLayout({ active: navKey });
+
+      const [{ items: categories }, { items: articles }] = await Promise.all([
+        window.BMNContent.fetchCategories(),
+        window.BMNContent.fetchPublishedArticles(),
+      ]);
+
+      const tabsEl = document.getElementById('category-tabs');
+      tabsEl.innerHTML = [
+        `<button type="button" data-cat="all" class="${activeCat === 'all' ? 'is-active' : ''}">All Stories</button>`,
+        ...categories.map(
+          (c) => `<button type="button" data-cat="${escapeHtml(c.slug)}" class="${activeCat === c.slug ? 'is-active' : ''}">${escapeHtml(c.name)}</button>`
+        ),
+      ].join('');
+
+      const months = Array.from(new Set(articles.map((a) => {
+        const d = new Date(a.published_at);
+        return isNaN(d.getTime()) ? null : d.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+      }).filter(Boolean)));
+
+      const monthSelect = document.getElementById('month-filter');
+      months.forEach((m) => {
+        const opt = document.createElement('option');
+        opt.value = m;
+        opt.textContent = m;
+        monthSelect.appendChild(opt);
+      });
+
+      const searchInput = document.getElementById('search-input');
+      searchInput.value = searchQuery;
+
+      function updateHeading() {
+        const matchedCat = categories.find((c) => c.slug === activeCat);
+        document.getElementById('catalog-heading').textContent = matchedCat ? matchedCat.name : 'All Stories';
+        document.getElementById('catalog-subtitle').textContent = matchedCat?.description || 'Browse published stories, relationship dilemmas, and community discussions.';
+      }
+
+      function render() {
+        updateHeading();
+        const q = searchQuery.trim().toLowerCase();
+        const filtered = articles.filter((a) => {
+          if (activeCat !== 'all' && a.category_slug !== activeCat) return false;
+          if (activeMonth !== 'all') {
+            const d = new Date(a.published_at);
+            const label = isNaN(d.getTime()) ? '' : d.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+            if (label !== activeMonth) return false;
+          }
+          if (q) {
+            const haystack = `${a.title} ${a.excerpt} ${a.author_pen_name} ${a.category_name} ${(a.paragraphs || []).join(' ')}`.toLowerCase();
+            if (!haystack.includes(q)) return false;
+          }
+          return true;
+        });
+
+        document.getElementById('results-summary').textContent =
+          `${filtered.length} ${filtered.length === 1 ? 'story' : 'stories'} found`;
+
+        const grid = document.getElementById('stories-grid');
+        if (!filtered.length) {
+          grid.innerHTML = '<div class="bmn-empty" style="grid-column:1/-1;">No matching stories found. Try clearing your search filter.</div>';
+          return;
+        }
+
+        grid.innerHTML = filtered
+          .map((a) => `
+            <article class="bmn-card">
+              <div class="bmn-card-media">
+                <a href="${escapeHtml(storyHref(a))}">
+                  <img src="${escapeHtml(mediaUrl(a.thumbnail_url || a.cover_image_url, '/img/frontpik2.jpg'))}" alt="${escapeHtml(a.title)}" referrerpolicy="no-referrer" onerror="this.style.display='none'">
+                </a>
+              </div>
+              <div class="bmn-card-body">
+                <div class="bmn-meta-line">
+                  <span class="bmn-meta-cat">${escapeHtml(a.category_name)}</span>
+                  <span aria-hidden="true">&middot;</span>
+                  <span>${escapeHtml(a.display_date_label)}</span>
+                  <span aria-hidden="true">&middot;</span>
+                  <span>${escapeHtml(estimateReadTime(a.paragraphs))}</span>
+                </div>
+                <h2 class="bmn-card-title"><a href="${escapeHtml(storyHref(a))}">${escapeHtml(a.title)}</a></h2>
+                <p class="bmn-card-excerpt">${escapeHtml(a.excerpt)}</p>
+                <div class="bmn-card-footer">
+                  <span>By ${escapeHtml(a.author_pen_name)}</span>
+                  <a href="${escapeHtml(storyHref(a))}" class="bmn-read-link">Read &rarr;</a>
+                </div>
+              </div>
+            </article>
+          `)
+          .join('');
+      }
+
+      tabsEl.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-cat]');
+        if (!btn) return;
+        activeCat = btn.dataset.cat;
+        tabsEl.querySelectorAll('button').forEach((b) => b.classList.toggle('is-active', b === btn));
+        const nextUrl = new URL(window.location.href);
+        if (activeCat === 'all') nextUrl.searchParams.delete('category');
+        else nextUrl.searchParams.set('category', activeCat);
+        window.history.replaceState({}, '', nextUrl.toString());
+        render();
+      });
+
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        render();
+      });
+
+      monthSelect.addEventListener('change', (e) => {
+        activeMonth = e.target.value;
+        render();
+      });
+
+      render();
+    })();
+  </script>
+</body>
+</html>

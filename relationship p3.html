@@ -1,471 +1,296 @@
-    <!DOCTYPE html>
-    <html lang="zxx" class="no-js">
-    <head>
-        <!-- Mobile Specific Meta -->
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!-- Favicon-->
-        <link rel="shortcut icon" href="img/trylogo2.png">
-        <!-- Author Meta -->
-        <meta name="author" content="colorlib">
-        <!-- Meta Description -->
-        <meta name="description" content="">
-        <!-- Meta Keyword -->
-        <meta name="keywords" content="">
-        <!-- meta character set -->
-        <meta charset="UTF-8">
-        <!-- Site Title -->
-        <title>Bɔ-Me-Nkɔmmɔ</title>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <title>Cookie check</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
 
-        <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet"> 
-            <!--
-            CSS
-            ============================================= -->
-            <link rel="stylesheet" href="css/linearicons.css">
-            <link rel="stylesheet" href="css/font-awesome.min.css">
-            <link rel="stylesheet" href="css/bootstrap.css">
-            <link rel="stylesheet" href="css/owl.carousel.css">
-            <link rel="stylesheet" href="css/main.css">
-        </head>
-        <body>
+      body {
+        font-family: 'Inter', Helvetica, Arial, sans-serif;
+        background: light-dark(#F8F8F7, #191919);
+        color: light-dark(#1f1f1f, #e3e3e3);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        min-height: 100vh;
+        margin: 0;
+        padding: 20px;
+        text-align: center;
+      }
 
-            <!-- Start Header Area -->
-            <header class="default-header">
-                <nav class="navbar navbar-expand-lg navbar-light">
-                    <div class="container">
-                          <a class="navbar-brand" href="index.html">
-                            <img src="img/trylogo2.png" alt="">
-                          </a>
-                          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                          </button>
+      .container {
+        background: light-dark(#FFFFFF, #1F1F1F);
+        padding: 32px;
+        border-radius: 16px;
+        border: 1px solid light-dark(#E2E3E4, #3E3E3E);
+        max-width: min(80%, 500px);
+        width: 100%;
+        color: light-dark(#2B2D31, #D4D4D4);
+      }
 
-                          <div class="collapse navbar-collapse justify-content-end align-items-center" id="navbarSupportedContent">
-                            <ul class="navbar-nav scrollable-menu">
-                                <li><a href="index.html">Home</a></li>
-                                <li><a href="#news">News</a></li>
-                                <li><a href="#travel">Travel</a></li>
-                                <li><a href="#fashion">fashion</a></li>
-                                <li><a href="#team">team</a></li>
-                                <!-- Dropdown -->
-                                <li class="dropdown">
-                                  <a class="dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                                    Pages
-                                  </a>
-                                  <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="single.html">Single</a>
-                                    <a class="dropdown-item" href="category.html">Category</a>
-                                    <a class="dropdown-item" href="search.html">Search</a>
-                                    <a class="dropdown-item" href="archive.html">Archive</a>
-                                    <a class="dropdown-item" href="generic.html">Generic</a>
-                                    <a class="dropdown-item" href="elements.html">Elements</a>
-                                  </div>
-                                </li>                               
-                            </ul>
-                          </div>                        
-                    </div>
-                </nav>
-            </header>
-            <!-- End Header Area -->
+      h1 {
+        font-size: 20px;
+        font-weight: 500;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        color: light-dark(#2B2D31, #D4D4D4);
+      }
 
-            <!-- Start top-section Area -->
-            <section class="top-section-area section-gap">
-                <div class="container">
-                    <div class="row justify-content-start align-items-center d-flex">
-                        <div class="col-lg-8 top-left">
-                            <h1 class="text-white mb-20">Relationshipsss</h1>
-                            <ul>
-                                <li><a href="index.html">Home</a><span class="lnr lnr-arrow-right"></span></li>
-                                <li><a href="category.html">Category</a><span class="lnr lnr-arrow-right"></span></li>
-                                <li><a href="single.html">Fashion</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>  
-            </section>
-            <!-- End top-section Area -->
+      p {
+        font-size: 14px;
+        color: light-dark(#2B2D31, #D4D4D4);
+        line-height: 21px;
+        margin: 0 0 1.5rem 0;
+      }
 
-    
-    <!-- Start post Area -->
-    <div class="post-wrapper pt-100">
-        <!-- Start post Area -->
-        <section class="post-area">
-            <div class="container">
-                <div class="row justify-content-center d-flex">
-                    <div class="col-lg-8">
-                        <div class="post-lists search-list">
-                            <div class="single-list flex-row d-flex">
-                                <div class="thumb">
-                                    <div class="date">
-                                        <span>20</span><br>Dec
-                                    </div>
-                                    <img src="img/asset/l1.jpg" alt="">
-                                </div>
-                                <div class="detail">
-                                    <a href="#"><h4 class="pb-20">Addiction When Gambling <br>
-                                    Becomes A Problem</h4></a>
-                                    <p>
-                                        inappropriate behavior Lorem ipsum dolor sit amet, consecteturinapprop riate behavior Lorem ipsum dolor sit amet, consectetur.
-                                    </p>
-                                    <p class="footer pt-20">
-                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                    <a href="#">06 Likes</a>     <i class="ml-20 fa fa-comment-o" aria-hidden="true"></i> <a href="#">02 Comments</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="single-list flex-row d-flex">
-                                <div class="thumb">
-                                    <div class="date">
-                                        <span>20</span><br>Dec
-                                    </div>
-                                    <img src="img/asset/l2.jpg" alt="">
-                                </div>
-                                <div class="detail">
-                                    <a href="#"><h4 class="pb-20">Addiction When Gambling <br>
-                                    Becomes A Problem</h4></a>
-                                    <p>
-                                        inappropriate behavior Lorem ipsum dolor sit amet, consecteturinapprop riate behavior Lorem ipsum dolor sit amet, consectetur.
-                                    </p>
-                                    <p class="footer pt-20">
-                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                    <a href="#">06 Likes</a>     <i class="ml-20 fa fa-comment-o" aria-hidden="true"></i> <a href="#">02 Comments</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="single-list flex-row d-flex">
-                                <div class="thumb">
-                                    <div class="date">
-                                        <span>20</span><br>Dec
-                                    </div>
-                                    <img src="img/asset/l3.jpg" alt="">
-                                </div>
-                                <div class="detail">
-                                    <a href="#"><h4 class="pb-20">Addiction When Gambling <br>
-                                    Becomes A Problem</h4></a>
-                                    <p>
-                                        inappropriate behavior Lorem ipsum dolor sit amet, consecteturinapprop riate behavior Lorem ipsum dolor sit amet, consectetur.
-                                    </p>
-                                    <p class="footer pt-20">
-                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                    <a href="#">06 Likes</a>     <i class="ml-20 fa fa-comment-o" aria-hidden="true"></i> <a href="#">02 Comments</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="single-list flex-row d-flex">
-                                <div class="thumb">
-                                    <div class="date">
-                                        <span>20</span><br>Dec
-                                    </div>
-                                    <img src="img/asset/l4.jpg" alt="">
-                                </div>
-                                <div class="detail">
-                                    <a href="#"><h4 class="pb-20">Addiction When Gambling <br>
-                                    Becomes A Problem</h4></a>
-                                    <p>
-                                        inappropriate behavior Lorem ipsum dolor sit amet, consecteturinapprop riate behavior Lorem ipsum dolor sit amet, consectetur.
-                                    </p>
-                                    <p class="footer pt-20">
-                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                    <a href="#">06 Likes</a>     <i class="ml-20 fa fa-comment-o" aria-hidden="true"></i> <a href="#">02 Comments</a>
-                                    </p>
-                                </div>
-                            </div> 
-                            <div class="single-list flex-row d-flex">
-                                <div class="thumb">
-                                    <div class="date">
-                                        <span>20</span><br>Dec
-                                    </div>
-                                    <img src="img/asset/l1.jpg" alt="">
-                                </div>
-                                <div class="detail">
-                                    <a href="#"><h4 class="pb-20">Addiction When Gambling <br>
-                                    Becomes A Problem</h4></a>
-                                    <p>
-                                        inappropriate behavior Lorem ipsum dolor sit amet, consecteturinapprop riate behavior Lorem ipsum dolor sit amet, consectetur.
-                                    </p>
-                                    <p class="footer pt-20">
-                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                    <a href="#">06 Likes</a>     <i class="ml-20 fa fa-comment-o" aria-hidden="true"></i> <a href="#">02 Comments</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="single-list flex-row d-flex">
-                                <div class="thumb">
-                                    <div class="date">
-                                        <span>20</span><br>Dec
-                                    </div>
-                                    <img src="img/asset/l2.jpg" alt="">
-                                </div>
-                                <div class="detail">
-                                    <a href="#"><h4 class="pb-20">Addiction When Gambling <br>
-                                    Becomes A Problem</h4></a>
-                                    <p>
-                                        inappropriate behavior Lorem ipsum dolor sit amet, consecteturinapprop riate behavior Lorem ipsum dolor sit amet, consectetur.
-                                    </p>
-                                    <p class="footer pt-20">
-                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                    <a href="#">06 Likes</a>     <i class="ml-20 fa fa-comment-o" aria-hidden="true"></i> <a href="#">02 Comments</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="single-list flex-row d-flex">
-                                <div class="thumb">
-                                    <div class="date">
-                                        <span>20</span><br>Dec
-                                    </div>
-                                    <img src="img/asset/l3.jpg" alt="">
-                                </div>
-                                <div class="detail">
-                                    <a href="#"><h4 class="pb-20">Addiction When Gambling <br>
-                                    Becomes A Problem</h4></a>
-                                    <p>
-                                        inappropriate behavior Lorem ipsum dolor sit amet, consecteturinapprop riate behavior Lorem ipsum dolor sit amet, consectetur.
-                                    </p>
-                                    <p class="footer pt-20">
-                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                    <a href="#">06 Likes</a>     <i class="ml-20 fa fa-comment-o" aria-hidden="true"></i> <a href="#">02 Comments</a>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="single-list flex-row d-flex">
-                                <div class="thumb">
-                                    <div class="date">
-                                        <span>20</span><br>Dec
-                                    </div>
-                                    <img src="img/asset/l4.jpg" alt="">
-                                </div>
-                                <div class="detail">
-                                    <a href="#"><h4 class="pb-20">Addiction When Gambling <br>
-                                    Becomes A Problem</h4></a>
-                                    <p>
-                                        inappropriate behavior Lorem ipsum dolor sit amet, consecteturinapprop riate behavior Lorem ipsum dolor sit amet, consectetur.
-                                    </p>
-                                    <p class="footer pt-20">
-                                    <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                    <a href="#">06 Likes</a>     <i class="ml-20 fa fa-comment-o" aria-hidden="true"></i> <a href="#">02 Comments</a>
-                                    </p>
-                                </div>
-                            </div>                             
-                            <!-- <div class="justify-content-center d-flex">
-                                <a class="text-uppercase primary-btn loadmore-btn mt-10 mb-10" href="#"> Load More Post</a>
-                            </div>   -->
-                            <div class="button-group-area mt-10">
-                                
-                                <a href="relationship.html" class="genric-btn info-border radius">1</a>
-                                <a href="relationship p2.html" class="genric-btn info-border radius">2</a>
-                                <a href="relationship p3.html" class="genric-btn info-border radius">3</a>
-                                <a href="relationship p4.html" class="genric-btn info-border circle arrow">Next<span class="lnr lnr-arrow-right"></span></a>
-                                
-                            </div>  
-                                                                                        
-                        </div>                          
-                    </div>
-                    <div class="col-lg-4 sidebar-area">
-                        <div class="single_widget search_widget">
-                            <div id="imaginary_container"> 
-                                <div class="input-group stylish-input-group">
-                                    <input type="text" class="form-control"  placeholder="Search" >
-                                    <span class="input-group-addon">
-                                        <button type="submit">
-                                            <span class="lnr lnr-magnifier"></span>
-                                        </button>  
-                                    </span>
-                                </div>
-                            </div> 
-                        </div>
+      .icon {
+        margin-bottom: 1rem;
+        line-height: 0;
+      }
 
-                        <div class="single_widget about_widget">
-                            <img src="img/asset/s-img.jpg" alt="">
-                            <h2 class="text-uppercase">Adele Gonzalez</h2>
-                            <p>
-                                MCSE boot camps have its supporters and
-                                its detractors. Some people do not understand why you should have to spend money
-                            </p>
-                            <div class="social-link">
-                                <a href="#"><button class="btn"><i class="fa fa-facebook" aria-hidden="true"></i> Like</button></a>
-                                <a href="#"><button class="btn"><i class="fa fa-twitter" aria-hidden="true"></i> follow</button></a>
-                            </div>
-                        </div>
-                        <div class="single_widget cat_widget">
-                            <h4 class="text-uppercase pb-20">post categories</h4>
-                            <ul>
-                                <li>
-                                    <a href="#">Technology <span>37</span></a>
-                                </li>
-                                <li>
-                                    <a href="#">Lifestyle <span>37</span></a>
-                                </li>
-                                <li>
-                                    <a href="#">Fashion <span>37</span></a>
-                                </li>
-                                <li>
-                                    <a href="#">Art <span>37</span></a>
-                                </li>
-                                <li>
-                                    <a href="#">Food <span>37</span></a>
-                                </li>
-                                <li>
-                                    <a href="#">Architecture <span>37</span></a>
-                                </li>
-                                <li>
-                                    <a href="#">Adventure <span>37</span></a>
-                                </li>                                
-                            </ul>
-                        </div>
-                        <div class="single_widget recent_widget">
-                            <h4 class="text-uppercase pb-20">Recent Posts</h4>
-                            <div class="active-recent-carusel">
-                                <div class="item">
-                                    <img src="img/asset/slider.jpg" alt="">
-                                    <p class="mt-20 title text-uppercase">Home Audio Recording <br>
-                                    For Everyone</p>
-                                    <p>02 Hours ago <span> <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                    06 <i class="fa fa-comment-o" aria-hidden="true"></i>02</span></p>    
-                                </div>  
-                                <div class="item">
-                                    <img src="img/asset/slider.jpg" alt="">
-                                    <p class="mt-20 title text-uppercase">Home Audio Recording <br>
-                                    For Everyone</p>
-                                    <p>02 Hours ago <span> <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                    06 <i class="fa fa-comment-o" aria-hidden="true"></i>02</span></p>    
-                                </div>  
-                                <div class="item">
-                                    <img src="img/asset/slider.jpg" alt="">
-                                    <p class="mt-20 title text-uppercase">Home Audio Recording <br>
-                                    For Everyone</p>
-                                    <p>02 Hours ago <span> <i class="fa fa-heart-o" aria-hidden="true"></i>
-                                    06 <i class="fa fa-comment-o" aria-hidden="true"></i>02</span></p>    
-                                </div>                                                                                            
-                            </div>
-                        </div>  
-                        <div class="single_widget cat_widget">
-                            <h4 class="text-uppercase pb-20">post archive</h4>
-                            <ul>
-                                <li>
-                                    <a href="#">Dec'17 <span>37</span></a>
-                                </li>
-                                <li>
-                                    <a href="#">Nov'17 <span>37</span></a>
-                                </li>
-                                <li>
-                                    <a href="#">Oct'17 <span>37</span></a>
-                                </li>
-                                <li>
-                                    <a href="#">Sept'17 <span>37</span></a>
-                                </li>
-                                <li>
-                                    <a href="#">Aug'17 <span>37</span></a>
-                                </li>
-                                <li>
-                                    <a href="#">Jul'17 <span>37</span></a>
-                                </li>
-                                <li>
-                                    <a href="#">Jun'17 <span>37</span></a>
-                                </li>                                
-                            </ul>
-                        </div> 
-                        <div class="single_widget tag_widget">
-                            <h4 class="text-uppercase pb-20">Tag Clouds</h4>
-                            <ul>
-                                <li><a href="#">Lifestyle</a></li>
-                                <li><a href="#">Art</a></li>
-                                <li><a href="#">Adventure</a></li>
-                                <li><a href="#">Food</a></li>
-                                <li><a href="#">Technology</a></li>
-                                <li><a href="#">Fashion</a></li>
-                                <li><a href="#">Adventure</a></li>
-                                <li><a href="#">Food</a></li>
-                                <li><a href="#">Technology</a></li>
-                            </ul>
-                        </div>                                                 
-                    </div>
-                </div>
-            </div>    
-        </section>
-        <!-- End post Area -->  
+      .button-container {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 2rem;
+      }
+
+      button {
+        background-color: light-dark(#fff, #323232);
+        color: light-dark(#2B2D31, #FCFCFC);
+        border: 1px solid light-dark(#E2E3E4, #3E3E3E);
+        border-radius: 12px;
+        padding: 8px 12px;
+        font-size: 14px;
+        line-height: 21px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        font-weight: 400;
+        font-family: 'Inter', Helvetica, Arial, sans-serif;
+        width: 100%;
+      }
+
+      button:hover {
+        background-color: light-dark(#EAEAEB, #424242);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      /* Loading Spinner Animation */
+      .spinner {
+        margin: 0 auto 1.5rem auto;
+        width: 40px;
+        height: 40px;
+        border: 4px solid light-dark(#f0f0f0, #262626);
+        border-top: 4px solid light-dark(#076eff, #87a9ff); /* Blue color */
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      .logo {
+        border-radius: 10px;
+        display: block;
+        margin: 0 auto 2rem auto;
+      }
+
+      .logo.hidden {
+        display: none;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img
+        class="logo"
+        src="https://www.gstatic.com/images/branding/productlogos/ai_studio/v1/web-512dp/logo_ai_studio_color_1x_web_512dp.png"
+        alt="AI Studio Logo"
+        width="256"
+        height="256"
+      />
+      <div class="spinner"></div>
+      <div id="error-ui" class="hidden">
+        <div class="icon">
+          <svg
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="48px"
+            height="48px"
+            fill="#D73A49"
+          >
+            <path
+              d="M12,2C6.486,2,2,6.486,2,12s4.486,10,10,10s10-4.486,10-10S17.514,2,12,2z M13,17h-2v-2h2V17z M13,13h-2V7h2V13z"
+            />
+          </svg>
+        </div>
+        <div id="stepOne" class="text-container">
+          <h1>Action required to load your app</h1>
+          <p>
+            It looks like your browser is blocking a required security cookie, which is common on
+            older versions of iOS and Safari.
+          </p>
+          <div class="button-container">
+            <button id="authInSeparateWindowButton" onclick="redirectToReturnUrl(true)">Authenticate in new window</button>
+          </div>
+        </div>
+        <div id="stepTwo" class="text-container hidden">
+          <h1>Action required to load your app</h1>
+          <p>
+            It looks like your browser is blocking a required security cookie, which is common on
+            older versions of iOS and Safari.
+          </p>
+          <div class="button-container">
+            <button id="interactButton" onclick="redirectToReturnUrl(false)">Close and continue</button>
+          </div>
+        </div>
+        <div id="stepThree" class="text-container hidden">
+          <h1>Almost there!</h1>
+          <p>
+            Grant permission for the required security cookie below.
+          </p>
+          <div class="button-container">
+            <button id="grantPermissionButton" onclick="grantStorageAccess()">Grant permission</button>
+          </div>
+        </div>
+      </div>
     </div>
-    <!-- End post Area -->
-    
-            <!-- start footer Area -->      
-            <footer class="footer-area section-gap">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-3  col-md-12">
-                            <div class="single-footer-widget">
-                                <h6>Top Products</h6>
-                                <ul class="footer-nav">
-                                    <li><a href="#">Managed Website</a></li>
-                                    <li><a href="#">Manage Reputation</a></li>
-                                    <li><a href="#">Power Tools</a></li>
-                                    <li><a href="#">Marketing Service</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-lg-6  col-md-12">
-                            <div class="single-footer-widget newsletter">
-                                <h6>Newsletter</h6>
-                                <p>You can trust us. we only send promo offers, not a single spam.</p>
-                                <div id="mc_embed_signup">
-                                    <form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="form-inline">
+    <script>
+      const AUTH_FLOW_TEST_COOKIE_NAME = '__SECURE-aistudio_auth_flow_may_set_cookies';
+      const COOKIE_VALUE = 'true';
 
-                                        <div class="form-group row" style="width: 100%">
-                                            <div class="col-lg-8 col-md-12">
-                                                <input name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '" required="" type="email">
-                                                <div style="position: absolute; left: -5000px;">
-                                                    <input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
-                                                </div>
-                                            </div> 
-                                        
-                                            <div class="col-lg-4 col-md-12">
-                                                <button class="nw-btn primary-btn">Subscribe<span class="lnr lnr-arrow-right"></span></button>
-                                            </div> 
-                                        </div>      
-                                        <div class="info"></div>
-                                    </form>
-                                </div>      
-                            </div>
-                        </div>
-                        <div class="col-lg-3  col-md-12">
-                            <div class="single-footer-widget mail-chimp">
-                                <h6 class="mb-20">Instragram Feed</h6>
-                                <ul class="instafeed d-flex flex-wrap">
-                                    <li><img src="img/i1.jpg" alt=""></li>
-                                    <li><img src="img/i2.jpg" alt=""></li>
-                                    <li><img src="img/i3.jpg" alt=""></li>
-                                    <li><img src="img/i4.jpg" alt=""></li>
-                                    <li><img src="img/i5.jpg" alt=""></li>
-                                    <li><img src="img/i6.jpg" alt=""></li>
-                                    <li><img src="img/i7.jpg" alt=""></li>
-                                    <li><img src="img/i8.jpg" alt=""></li>
-                                </ul>
-                            </div>
-                        </div>                      
-                    </div>
+      function getCookie(name) {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          let cookie = cookies[i].trim();
+          if (cookie.startsWith(name + '=')) {
+            return cookie.substring(name.length + 1);
+          }
+        }
+        return null;
+      }
 
-                    <div class="row footer-bottom d-flex justify-content-between">
+      function setAuthFlowTestCookie() {
+        // Set the cookie's TTL to 1 minute. This is a short lived cookie because it is only used
+        // when the user does not have an auth token or their auth token needs to be reset.
+        // Making this cookie too long-lived allows the user to get into a state where they can't
+        // mint a new auth token.
+        document.cookie = `${AUTH_FLOW_TEST_COOKIE_NAME}=${COOKIE_VALUE}; Path=/; Secure; SameSite=None; Domain=${window.location.hostname}; Partitioned; Max-Age=60;`;
+      }
 
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        <p class="col-lg-8 col-sm-12 footer-text">Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | Bɔ-Me NKɔMɔ<i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://bomenkommo.com" target="_blank">Bɔ-Me NKɔMɔ 2024</a></p>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+      /**
+       * Returns true if the test cookie is set, false otherwise.
+       */
+      function authFlowTestCookieIsSet() {
+        return getCookie(AUTH_FLOW_TEST_COOKIE_NAME) === COOKIE_VALUE;
+      }
 
-                        <div class="col-lg-4 col-sm-12 footer-social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-dribbble"></i></a>
-                            <a href="#"><i class="fa fa-behance"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-            <!-- End footer Area -->        
+      /**
+       * Redirects to the return url. If autoClose is true, then the return url will be opened in a
+       * new window, and it will be closed automatically when the page loads.
+       * Options:
+       *   storageAccessGranted: if true, appends __storage_access_granted=1 to
+       *   the return url so the Lua auth script can set the test cookie
+       *   server-side (needed for Safari/iOS where document.cookie is blocked).
+       */
+      async function redirectToReturnUrl(autoClose, storageAccessGranted = false) {
+        const initialReturnUrlStr = new URLSearchParams(window.location.search).get('return_url');
+        const returnUrl = initialReturnUrlStr ? new URL(initialReturnUrlStr) : null;
 
-            <script src="js/vendor/jquery-2.2.4.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-            <script src="js/vendor/bootstrap.min.js"></script>
-            <script src="js/jquery.ajaxchimp.min.js"></script>
-            <script src="js/parallax.min.js"></script>          
-            <script src="js/owl.carousel.min.js"></script>      
-            <script src="js/jquery.magnific-popup.min.js"></script>             
-            <script src="js/jquery.sticky.js"></script>
-            <script src="js/main.js"></script>  
-        </body>
-    </html>
+        // Prevent potentially malicious URLs from being used
+        if (returnUrl.protocol.toLowerCase() === 'javascript:') {
+          console.error('Potentially malicious return URL blocked');
+          return;
+        }
+
+        if (storageAccessGranted) {
+          returnUrl.searchParams.set('__storage_access_granted', '1');
+        }
+
+        if (autoClose) {
+          returnUrl.searchParams.set('__auto_close', '1');
+          const url = new URL(window.location.href);
+          url.searchParams.set('return_url', returnUrl.toString());
+          // Land on the cookie check page first, so the user can interact with it before proceeding
+          // to the return url where cookies can be set.
+          window.open(url.toString(), '_blank');
+          const hasAccess = await document.hasStorageAccess();
+          document.querySelector('#stepOne').classList.add('hidden');
+          if (!hasAccess) {
+            document.querySelector('#stepThree').classList.remove('hidden');
+          } else {
+            window.location.reload();
+          }
+        } else {
+          window.location.href = returnUrl.toString();
+        }
+      }
+
+      /**
+       * Grants the browser permission to set cookies. If successful, then it redirects to the
+       * return url.
+       */
+      async function grantStorageAccess() {
+        try {
+          await document.requestStorageAccess();
+          // Recent Safari/iOS versions block document.cookie entirely in
+          // cross-site iframes, even after requestStorageAccess(). Only
+          // server-side Set-Cookie headers work. Signal to the Lua auth script
+          // via query param so it can set the test cookie server-side.
+          redirectToReturnUrl(false, /* storageAccessGranted= */ true);
+        } catch (err) {
+          console.log('error after button click: ', err);
+        }
+      }
+
+      /**
+       * Verifies that the browser can set cookies. If it can, then it redirects to the return url.
+       * If it can't, then it shows the error UI.
+       */
+      function verifyCanSetCookies() {
+        setAuthFlowTestCookie();
+        if (authFlowTestCookieIsSet()) {
+          // Check if we are on the auto-close flow, and if so show the interact button.
+          const returnUrl = new URLSearchParams(window.location.search).get('return_url');
+          const autoClose = new URL(returnUrl).searchParams.has('__auto_close');
+          if (autoClose) {
+            document.querySelector('#stepOne').classList.add('hidden');
+            document.querySelector('#stepTwo').classList.remove('hidden');
+          } else {
+            redirectToReturnUrl(false);
+            return;
+          }
+        }
+        // The cookie could not be set, so initiate the recovery flow.
+        document.querySelector('.logo').classList.add('hidden');
+        document.querySelector('.spinner').classList.add('hidden');
+        document.querySelector('#error-ui').classList.remove('hidden');
+      }
+
+      // Start the cookie verification process.
+      verifyCanSetCookies();
+    </script>
+  </body>
+</html>

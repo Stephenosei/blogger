@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="/img/trylogo2.png">
+  <title>Share Your Story — Bɔ-Me-Nkɔmmɔ</title>
+  <meta name="description" content="Submit your real-life relationship story, dilemma, or enquiry to the Bɔ-Me-Nkɔmmɔ editorial team.">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/editorial.css">
+</head>
+<body class="bmn-body">
+  <div id="bmn-announcement-host"></div>
+  <div id="bmn-header-host"></div>
+
+  <main>
+    <section class="bmn-article-header">
+      <div class="bmn-container" style="max-width:780px;">
+        <p class="bmn-kicker">Community Submissions</p>
+        <h1 class="bmn-article-title" style="margin-top:6px;">Share Your Story or Enquiry</h1>
+        <p class="bmn-section-desc">Submit a real-life relationship experience, seek community advice in <em>What Will You Do?</em>, or contact our editorial team privately.</p>
+      </div>
+    </section>
+
+    <section class="bmn-section">
+      <div class="bmn-container" style="max-width:780px;">
+        <div id="submission-feedback"></div>
+
+        <form id="submission-form" style="background:var(--bmn-paper);border:1px solid var(--bmn-border);border-radius:12px;padding:32px;">
+          <div class="bmn-grid-2" style="gap:16px;">
+            <div class="bmn-field">
+              <label for="sub-type">Submission Type</label>
+              <select id="sub-type" class="bmn-select" required>
+                <option value="story">Share a Story / Dilemma</option>
+                <option value="enquiry">General Enquiry / Contact Team</option>
+              </select>
+            </div>
+            <div class="bmn-field">
+              <label for="sub-category">Section</label>
+              <select id="sub-category" class="bmn-select" required>
+                <option value="what-will-you-do">What Will You Do?</option>
+                <option value="relationship">Relationship</option>
+                <option value="love-journey">Love Journey</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="bmn-grid-2" style="gap:16px;">
+            <div class="bmn-field">
+              <label for="sub-name">Your Name or Pen Name</label>
+              <input type="text" id="sub-name" class="bmn-input" required minlength="2" maxlength="120" placeholder="e.g. Anonymous, Ama, Kwame">
+            </div>
+            <div class="bmn-field">
+              <label for="sub-email">Email Address (kept private)</label>
+              <input type="email" id="sub-email" class="bmn-input" required maxlength="180" placeholder="you@example.com">
+            </div>
+          </div>
+
+          <div class="bmn-field">
+            <label for="sub-title">Story Headline or Subject</label>
+            <input type="text" id="sub-title" class="bmn-input" required minlength="3" maxlength="200" placeholder="Give your story or enquiry a clear title">
+          </div>
+
+          <div class="bmn-field">
+            <label for="sub-body">Your Story or Message</label>
+            <textarea id="sub-body" class="bmn-textarea" style="min-height:220px;" required minlength="20" maxlength="20000" placeholder="Write openly. Our editorial team reviews every submission before anything is published..."></textarea>
+          </div>
+
+          <div class="bmn-field" style="display:flex;align-items:flex-start;gap:10px;">
+            <input type="checkbox" id="sub-consent" checked style="margin-top:4px;width:16px;height:16px;">
+            <label for="sub-consent" style="margin:0;font-weight:400;font-size:13px;color:var(--bmn-ink-muted);">
+              I give Bɔ-Me-Nkɔmmɔ permission to review and publish this story anonymously (your email is never published).
+            </label>
+          </div>
+
+          <button type="submit" class="bmn-btn bmn-btn-primary" id="sub-submit-btn">Send to Editorial Team</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <div id="bmn-footer-host"></div>
+
+  <script src="/js/vendor/supabase.js"></script>
+  <script src="/js/supabase-client.js"></script>
+  <script src="/js/legacy-catalog.js"></script>
+  <script src="/js/content-service.js"></script>
+  <script src="/js/layout.js"></script>
+  <script>
+    (async function () {
+      const { escapeHtml } = window.BMNSupabase;
+      await window.BMNLayout.mountPublicLayout({ active: '' });
+
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('type') === 'enquiry') {
+        document.getElementById('sub-type').value = 'enquiry';
+      }
+
+      document.getElementById('submission-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const feedback = document.getElementById('submission-feedback');
+        const btn = document.getElementById('sub-submit-btn');
+        feedback.innerHTML = '';
+
+        const bodyText = document.getElementById('sub-body').value.trim();
+        if (bodyText.length < 20) {
+          feedback.innerHTML = '<div class="bmn-alert bmn-alert-error">Please write at least 20 characters so our editors have enough context.</div>';
+          return;
+        }
+
+        btn.disabled = true;
+        btn.textContent = 'Submitting...';
+
+        try {
+          await window.BMNContent.submitReaderStory({
+            submission_type: document.getElementById('sub-type').value,
+            category_slug: document.getElementById('sub-category').value,
+            sender_name: document.getElementById('sub-name').value,
+            sender_email: document.getElementById('sub-email').value,
+            title: document.getElementById('sub-title').value,
+            message_body: bodyText,
+            consent_to_publish: document.getElementById('sub-consent').checked,
+          });
+          feedback.innerHTML = '<div class="bmn-alert bmn-alert-success">Your submission has been saved securely and our editorial team has been notified. Thank you for sharing with Bɔ-Me-Nkɔmmɔ!</div>';
+          e.target.reset();
+        } catch (err) {
+          feedback.innerHTML = `<div class="bmn-alert bmn-alert-error">${escapeHtml(err.message)}</div>`;
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Send to Editorial Team';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
